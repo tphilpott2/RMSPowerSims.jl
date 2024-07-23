@@ -4,11 +4,5 @@ CurrentModule = RMSPowerSims
 
 # RMSPowerSims
 
-Documentation for [RMSPowerSims](https://github.com/tphilpott2/RMSPowerSims.jl).
+Documentation for [RMSPowerSims](https://github.com/tphilpott/RMSPowerSims.jl).
 
-```@index
-```
-
-```@autodocs
-Modules = [RMSPowerSims]
-```
