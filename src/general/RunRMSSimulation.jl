@@ -11,7 +11,7 @@ function power_system_equations!(out, du, u, p, t)
 end
 
 # kwargs are passed only to the solver
-function run_RMS_simulation(power_system_simulation, tspan::Tuple{Float64,Float64}; solver_settings=Dict())
+function run_RMS_simulation(power_system_simulation, tspan::Tuple{Float64,Float64}; kwargs...)
 
 
     # configure stages
@@ -35,12 +35,9 @@ function run_RMS_simulation(power_system_simulation, tspan::Tuple{Float64,Float6
     #push!(time_tracker, ["Stage 1 problem defined", time_ns()])
     soln = solve(
         prob,
-        power_system_simulation.solver,
+        power_system_simulation.solver;
         callback=CallbackSet(first_stage.callbacks...),
-        reltol=solver_settings["reltol"],
-        abstol=solver_settings["abstol"],
-        dtmax=solver_settings["dtmax"],
-        maxiters=solver_settings["maxiters"],
+        kwargs...
     )
     #push!(time_tracker, ["Stage 1 executed", time_ns()])
     # pr("stage 1 complete: $((time_ns() - start_time)*1e-9) s\n")
@@ -86,12 +83,9 @@ function run_RMS_simulation(power_system_simulation, tspan::Tuple{Float64,Float6
 
             soln = solve(
                 prob,
-                power_system_simulation.solver,
+                power_system_simulation.solver;
                 callback=CallbackSet(stage.callbacks...),
-                reltol=solver_settings["reltol"],
-                abstol=solver_settings["abstol"],
-                dtmax=solver_settings["dtmax"],
-                maxiters=solver_settings["maxiters"],
+                kwargs...
             )
             # pr("stage $(stage.stage_index) complete: $((time_ns() - start_time)*1e-9) s\n")
             #push!(time_tracker, ["stage $(stage.stage_index) complete", time_ns()])
